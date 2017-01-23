@@ -1,8 +1,6 @@
 package com.fsck.k9.ui.compose;
 
 
-import java.util.Map;
-
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +24,8 @@ import com.fsck.k9.message.InsertableHtmlContent;
 import com.fsck.k9.message.MessageBuilder;
 import com.fsck.k9.message.QuotedTextMode;
 import com.fsck.k9.message.SimpleMessageFormat;
+
+import java.util.Map;
 
 
 public class QuotedMessagePresenter {
@@ -356,13 +356,11 @@ public class QuotedMessagePresenter {
     public void onClickShowQuotedText() {
         showOrHideQuotedText(QuotedTextMode.SHOW);
         messageCompose.updateMessageFormat();
-        messageCompose.saveDraftEventually();
     }
 
     public void onClickDeleteQuotedText() {
         showOrHideQuotedText(QuotedTextMode.HIDE);
         messageCompose.updateMessageFormat();
-        messageCompose.saveDraftEventually();
     }
 
     public void onClickEditQuotedText() {
