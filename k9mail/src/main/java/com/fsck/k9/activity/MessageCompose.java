@@ -217,20 +217,6 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         recipientPresenter.onCryptoPgpSignOnlyDisabled();
     }
 
-    private boolean doesDraftNeedsSaving() {
-        if (recipientPresenter.getAllRecipients().size() > 0) {
-            return true;
-        } else if (!TextUtils.isEmpty(mSubjectView.getText())) {
-            return true;
-        } else if (!TextUtils.isEmpty(mMessageContentView.getText())) {
-            return true;
-        } else if (attachmentPresenter.createAttachmentList().size() > 0) {
-            return true;
-        }
-
-        return false;
-    }
-
     public enum Action {
         COMPOSE(R.string.compose_title_compose),
         REPLY(R.string.compose_title_reply),
@@ -278,7 +264,6 @@ public class MessageCompose extends K9Activity implements OnClickListener,
      */
     private SimpleMessageFormat mMessageFormat;
 
-    private boolean draftNeedsSaving = false;
     private boolean isInSubActivity = false;
 
     /**
@@ -812,6 +797,7 @@ public class MessageCompose extends K9Activity implements OnClickListener,
     public void performSendAfterChecks() {
         currentMessageBuilder = createMessageBuilder(false);
         if (currentMessageBuilder != null) {
+            dontSaveDraftOnPause = true;
             setProgressBarIndeterminateVisibility(true);
             currentMessageBuilder.buildAsync(this);
         }
@@ -1148,6 +1134,20 @@ public class MessageCompose extends K9Activity implements OnClickListener,
         }
 
         messageLoaderHelper.asyncStartOrResumeLoadingMessage(mMessageReference, null);
+    }
+
+    private boolean doesDraftNeedsSaving() {
+        if (recipientPresenter.getAllRecipients().size() > 0) {
+            return true;
+        } else if (!TextUtils.isEmpty(mSubjectView.getText())) {
+            return true;
+        } else if (!TextUtils.isEmpty(mMessageContentView.getText())) {
+            return true;
+        } else if (attachmentPresenter.createAttachmentList().size() > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
