@@ -931,6 +931,8 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
             case R.id.hide_headers: {
                 mMessageViewFragment.onToggleAllHeadersView();
                 updateMenu();
+
+                mMessageViewFragment.onShowHeaders();
                 return true;
             }
         }

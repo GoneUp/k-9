@@ -98,6 +98,14 @@ public class MessageTopView extends LinearLayout {
         hideShowPicturesButton();
     }
 
+    public MessageContainerView getMessageContainer(){
+        View messageContainerViewCandidate = containerView.getChildAt(0);
+        if (messageContainerViewCandidate instanceof MessageContainerView) {
+            return (MessageContainerView) messageContainerViewCandidate;
+        }
+        return null;
+    }
+
     private void resetAndPrepareMessageView(MessageViewInfo messageViewInfo) {
         mDownloadRemainder.setVisibility(View.GONE);
         containerView.removeAllViews();
@@ -349,4 +357,6 @@ public class MessageTopView extends LinearLayout {
             progressBar.setProgress(newPosition);
         }
     }
+
+
 }

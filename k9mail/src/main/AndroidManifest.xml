@@ -248,6 +248,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.ShowSource"
+            android:label="@string/mail_source"/>
+
         <!-- Search Activity - searchable -->
         <activity
             android:name=".activity.Search"

@@ -18,7 +18,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.text.TextUtils;
+
 import timber.log.Timber;
+
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ import com.fsck.k9.activity.ChooseFolder;
 import com.fsck.k9.activity.MessageLoaderHelper;
 import com.fsck.k9.activity.MessageLoaderHelper.MessageLoaderCallbacks;
 import com.fsck.k9.activity.MessageReference;
+import com.fsck.k9.activity.ShowSource;
 import com.fsck.k9.controller.MessagingController;
 import com.fsck.k9.fragment.ConfirmationDialogFragment;
 import com.fsck.k9.fragment.ConfirmationDialogFragment.ConfirmationDialogFragmentListener;
@@ -165,7 +168,7 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         Context context = new ContextThemeWrapper(inflater.getContext(),
                 K9.getK9ThemeResourceId(K9.getK9MessageViewTheme()));
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -383,6 +386,15 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
     public void onSelectText() {
         // FIXME
         // mMessageView.beginSelectingText();
+    }
+
+    public void onShowHeaders() {
+        if (mMessageReference != null) {
+            ShowSource.showSource(getActivity(), getMessageReference());
+
+            MessageContainerView messageContainer = mMessageView.getMessageContainer();
+            Timber.i(messageContainer.getCurrentHtmlText());
+        }
     }
 
     private void startRefileActivity(int activity) {
@@ -676,7 +688,7 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
 
         @Override
         public void startPendingIntentForCryptoPresenter(IntentSender si, Integer requestCode, Intent fillIntent,
-                int flagsMask, int flagValues, int extraFlags) throws SendIntentException {
+                                                         int flagsMask, int flagValues, int extraFlags) throws SendIntentException {
             if (requestCode == null) {
                 getActivity().startIntentSender(si, fillIntent, flagsMask, flagValues, extraFlags);
                 return;
@@ -713,18 +725,26 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
 
     public interface MessageViewFragmentListener {
         void onForward(MessageReference messageReference, Parcelable decryptionResultForReply);
+
         void disableDeleteAction();
+
         void onReplyAll(MessageReference messageReference, Parcelable decryptionResultForReply);
+
         void onReply(MessageReference messageReference, Parcelable decryptionResultForReply);
+
         void displayMessageSubject(String title);
+
         void setProgress(boolean b);
+
         void showNextMessageOrReturn();
+
         void messageHeaderViewAvailable(MessageHeader messageHeaderView);
+
         void updateMenu();
     }
 
     public boolean isInitialized() {
-        return mInitialized ;
+        return mInitialized;
     }
 
 
@@ -781,7 +801,7 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
 
         @Override
         public void startIntentSenderForMessageLoaderHelper(IntentSender si, int requestCode, Intent fillIntent,
-                int flagsMask, int flagValues, int extraFlags) {
+                                                            int flagsMask, int flagValues, int extraFlags) {
             try {
                 requestCode |= REQUEST_MASK_LOADER_HELPER;
                 getActivity().startIntentSenderForResult(

@@ -169,7 +169,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
                 if (uri == null) {
                     return;
                 }
-                
+
                 final AttachmentViewInfo attachmentViewInfo = getAttachmentViewInfoIfCidUri(uri);
                 final boolean inlineImage = attachmentViewInfo != null;
 
@@ -371,8 +371,8 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     public void displayMessageViewContainer(MessageViewInfo messageViewInfo,
-            final OnRenderingFinishedListener onRenderingFinishedListener, boolean automaticallyLoadPictures,
-            boolean hideUnsignedTextDivider, AttachmentViewCallback attachmentCallback) {
+                                            final OnRenderingFinishedListener onRenderingFinishedListener, boolean automaticallyLoadPictures,
+                                            boolean hideUnsignedTextDivider, AttachmentViewCallback attachmentCallback) {
 
         this.attachmentCallback = attachmentCallback;
 
@@ -425,7 +425,7 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
     }
 
     private void displayHtmlContentWithInlineAttachments(String htmlText, AttachmentResolver attachmentResolver,
-            OnPageFinishedListener onPageFinishedListener) {
+                                                         OnPageFinishedListener onPageFinishedListener) {
         currentHtmlText = htmlText;
         currentAttachmentResolver = attachmentResolver;
         mMessageContentView.displayHtmlContentWithInlineAttachments(htmlText, attachmentResolver, onPageFinishedListener);
@@ -521,12 +521,12 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if(!(state instanceof SavedState)) {
+        if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
 
-        SavedState savedState = (SavedState)state;
+        SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
         mSavedState = savedState;
@@ -555,22 +555,26 @@ public class MessageContainerView extends LinearLayout implements OnLayoutChange
         return attachmentViewMap.get(attachment);
     }
 
+    public String getCurrentHtmlText() {
+        return currentHtmlText;
+    }
+
     static class SavedState extends BaseSavedState {
         boolean attachmentViewVisible;
         boolean showingPictures;
 
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
+                    @Override
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
 
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
 
 
         SavedState(Parcelable superState) {
