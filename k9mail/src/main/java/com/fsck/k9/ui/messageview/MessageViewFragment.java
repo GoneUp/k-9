@@ -1,6 +1,10 @@
 package com.fsck.k9.ui.messageview;
 
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Locale;
 
@@ -46,6 +50,8 @@ import com.fsck.k9.fragment.ProgressDialogFragment;
 import com.fsck.k9.helper.FileBrowserHelper;
 import com.fsck.k9.helper.FileBrowserHelper.FileBrowserFailOverCallback;
 import com.fsck.k9.mail.Flag;
+import com.fsck.k9.mail.MessagingException;
+import com.fsck.k9.mail.internet.MimeMultipart;
 import com.fsck.k9.mailstore.AttachmentViewInfo;
 import com.fsck.k9.mailstore.LocalMessage;
 import com.fsck.k9.mailstore.MessageViewInfo;
@@ -54,6 +60,8 @@ import com.fsck.k9.ui.messageview.CryptoInfoDialog.OnClickShowCryptoKeyListener;
 import com.fsck.k9.ui.messageview.MessageCryptoPresenter.MessageCryptoMvpView;
 import com.fsck.k9.view.MessageCryptoDisplayStatus;
 import com.fsck.k9.view.MessageHeader;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 
 public class MessageViewFragment extends Fragment implements ConfirmationDialogFragmentListener,
@@ -388,12 +396,23 @@ public class MessageViewFragment extends Fragment implements ConfirmationDialogF
         // mMessageView.beginSelectingText();
     }
 
-    public void onShowHeaders() {
+    public void onShowSource() {
         if (mMessageReference != null) {
             ShowSource.showSource(getActivity(), getMessageReference());
 
             MessageContainerView messageContainer = mMessageView.getMessageContainer();
-            Timber.i(messageContainer.getCurrentHtmlText());
+            Timber.i(String.valueOf(mMessage));
+            Timber.i(String.valueOf(mMessage.getBody()));
+
+            if (mMessage.getBody() != null) {
+                try {
+                    ByteArrayOutputStream os = new ByteArrayOutputStream();
+                    mMessage.getBody().writeTo(os);
+                    Timber.i("content: " + os.toString("UTF-8"));
+                } catch (IOException | MessagingException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

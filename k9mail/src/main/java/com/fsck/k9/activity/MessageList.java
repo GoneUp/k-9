@@ -932,7 +932,7 @@ public class MessageList extends K9Activity implements MessageListFragmentListen
                 mMessageViewFragment.onToggleAllHeadersView();
                 updateMenu();
 
-                mMessageViewFragment.onShowHeaders();
+                mMessageViewFragment.onShowSource();
                 return true;
             }
         }
