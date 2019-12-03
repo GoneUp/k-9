@@ -94,6 +94,9 @@ class NotificationChannelManager(
         val messagesChannel = NotificationChannel(channelId, channelName, importance)
         messagesChannel.description = channelDescription
         messagesChannel.group = channelGroupId
+        messagesChannel.enableLights(account.notificationSetting.isLedEnabled);
+        messagesChannel.lightColor = account.notificationSetting.ledColor;
+
 
         return messagesChannel
     }

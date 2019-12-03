@@ -384,9 +384,7 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
                 "account_ringtone",
                 "account_vibrate",
                 "account_vibrate_pattern",
-                "account_vibrate_times",
-                "account_led",
-                "led_color"
+                "account_vibrate_times"
         )
 
         private const val DIALOG_DELETE_ACCOUNT = 1
